@@ -1,7 +1,7 @@
 module.exports = {
     "extends": "stylelint-config-standard",
     "rules": {
-        "indentation": 4,
+        "indentation": 2,
         "string-quotes": "double",
         "no-duplicate-selectors": true,
         "color-hex-case": "upper",
