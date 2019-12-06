@@ -20,3 +20,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+# Todo
+
+- sortable tasks (Sortable JS + Vuetify)[https://github.com/vuetifyjs/vuetify/issues/2234#issuecomment-407006163]
