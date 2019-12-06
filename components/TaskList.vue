@@ -1,11 +1,11 @@
 <template>
-    <div>
-        Tasklist
-    </div>
+  <div>
+    Tasklist
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "TaskList"
-    }
+export default {
+  name: 'TaskList'
+}
 </script>
