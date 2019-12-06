@@ -1,4 +1,30 @@
 module.exports = {
-  // add your custom config here
-  // https://stylelint.io/user-guide/configuration
-}
+    "extends": "stylelint-config-standard",
+    "rules": {
+        "indentation": 4,
+        "string-quotes": "double",
+        "no-duplicate-selectors": true,
+        "color-hex-case": "upper",
+        "color-named": "never",
+        "selector-no-qualifying-type": true,
+        "selector-combinator-space-after": "always",
+        "declaration-block-trailing-semicolon": "always",
+        "declaration-no-important": true,
+        "declaration-colon-space-before": "never",
+        "declaration-colon-space-after": "always",
+        "property-no-vendor-prefix": true,
+        "value-no-vendor-prefix": true,
+        "number-leading-zero": "always",
+        "function-url-quotes": "always",
+        "font-weight-notation": "numeric",
+        "font-family-name-quotes": "always-unless-keyword",
+        "comment-empty-line-before": "always",
+        "at-rule-no-vendor-prefix": true,
+        "selector-pseudo-element-colon-notation": "double",
+        "selector-no-vendor-prefix": true,
+        "media-feature-range-operator-space-before": "always",
+        "media-feature-range-operator-space-after": "always",
+        "media-feature-name-no-vendor-prefix": true,
+        "media-feature-colon-space-before": "never"
+    }
+};
