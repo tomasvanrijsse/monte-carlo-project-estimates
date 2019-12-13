@@ -1,11 +1,14 @@
 <template>
   <div>
-    Graph
+    Chart
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Graph'
+  name: 'Chart',
+  props: {
+    tasks: Array
+  }
 }
 </script>

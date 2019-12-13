@@ -63,6 +63,11 @@ export default {
       }]
     }
   },
+  watch: {
+    tasks () {
+      this.$emit('taskListUpdated', this.tasks)
+    }
+  },
   methods: {
     deleteItem (item) {
       const index = this.tasks.indexOf(item)
