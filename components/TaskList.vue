@@ -1,33 +1,41 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="tasks"
-  >
-    <template v-slot:item.name="{ item }">
-      <v-text-field
-        v-model="item.name"
-        placeholder="Task name"
-      />
-    </template>
-
-    <template v-slot:item.low="{ item }">
-      <v-text-field v-model="item.low" class="number" />
-    </template>
-
-    <template v-slot:item.target="{ item }">
-      <v-text-field v-model="item.target" class="number" />
-    </template>
-
-    <template v-slot:item.high="{ item }">
-      <v-text-field v-model="item.high" class="number" />
-    </template>
-
-    <template v-slot:item.action="{ item }">
-      <v-icon @click="deleteItem(item)" small>
-        mdi-delete
-      </v-icon>
-    </template>
-  </v-data-table>
+  <div>
+    <v-btn v-on:click="addNewItem('top')" color="primary" dark class="mb-2">
+      New Task
+    </v-btn>
+    <v-data-table
+      :headers="headers"
+      :items="tasks"
+    >
+      <template v-slot:item="{ item }">
+        <tr>
+          <td>
+            <v-text-field
+              v-model="item.name"
+              placeholder="Task name"
+            />
+          </td>
+          <td>
+            <v-text-field v-model="item.low" class="number" />
+          </td>
+          <td>
+            <v-text-field v-model="item.target" class="number" />
+          </td>
+          <td>
+            <v-text-field v-model="item.high" class="number" />
+          </td>
+          <td>
+            <v-icon @click="deleteItem()" small>
+              mdi-delete
+            </v-icon>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
+    <v-btn v-on:click="addNewItem('bottom')" color="primary" dark class="mb-2 mt-2">
+      New Task
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -59,6 +67,19 @@ export default {
     deleteItem (item) {
       const index = this.tasks.indexOf(item)
       confirm('Are you sure you want to delete this task?') && this.tasks.splice(index, 1)
+    },
+    addNewItem (location) {
+      const emptyTask = {
+        name: '',
+        low: null,
+        target: null,
+        high: null
+      }
+      if (location === 'top') {
+        this.tasks.unshift(emptyTask)
+      } else {
+        this.tasks.push(emptyTask)
+      }
     }
   }
 }
