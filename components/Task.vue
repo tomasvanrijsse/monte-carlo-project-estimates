@@ -69,8 +69,8 @@ export default {
   },
   methods: {
     deleteItem (item) {
-      const index = this.tasks.indexOf(item)
-      confirm('Are you sure you want to delete this task?') && this.tasks.splice(index, 1)
+      const payload = { task: this.task }
+      confirm('Are you sure you want to delete this task?') && this.$store.commit('tasks/remove', payload)
     }
   }
 }

@@ -22,8 +22,8 @@ export const mutations = {
       state.list.push(emptyTask)
     }
   },
-  remove (state, { todo }) {
-    state.list.splice(state.list.indexOf(todo), 1)
+  remove (state, { task }) {
+    state.list.splice(state.list.indexOf(task), 1)
   },
   updateName (state, { task, name }) {
     task.name = name
