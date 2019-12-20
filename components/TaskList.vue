@@ -8,28 +8,7 @@
       :items="tasks"
     >
       <template v-slot:item="{ item }">
-        <tr>
-          <td>
-            <v-text-field
-              v-model="item.name"
-              placeholder="Task name"
-            />
-          </td>
-          <td>
-            <v-text-field v-model="item.low" class="number" />
-          </td>
-          <td>
-            <v-text-field v-model="item.target" class="number" />
-          </td>
-          <td>
-            <v-text-field v-model="item.high" class="number" />
-          </td>
-          <td>
-            <v-icon @click="deleteItem()" small>
-              mdi-delete
-            </v-icon>
-          </td>
-        </tr>
+        <Task :task="item" />
       </template>
     </v-data-table>
     <v-btn v-on:click="addNewItem('bottom')" color="primary" dark class="mb-2 mt-2">
@@ -39,8 +18,10 @@
 </template>
 
 <script>
+import Task from './Task'
 export default {
   name: 'TaskList',
+  components: { Task },
   data () {
     return {
       headers: [
@@ -54,37 +35,17 @@ export default {
         { text: 'Target', value: 'target' },
         { text: 'High', value: 'high' },
         { text: 'Actions', value: 'action', sortable: false }
-      ],
-      tasks: [{
-        name: 'Task 1',
-        low: 1,
-        target: 4,
-        high: 10
-      }]
+      ]
     }
   },
-  watch: {
+  computed: {
     tasks () {
-      this.$emit('taskListUpdated', this.tasks)
+      return this.$store.state.tasks.list
     }
   },
   methods: {
-    deleteItem (item) {
-      const index = this.tasks.indexOf(item)
-      confirm('Are you sure you want to delete this task?') && this.tasks.splice(index, 1)
-    },
     addNewItem (location) {
-      const emptyTask = {
-        name: '',
-        low: null,
-        target: null,
-        high: null
-      }
-      if (location === 'top') {
-        this.tasks.unshift(emptyTask)
-      } else {
-        this.tasks.push(emptyTask)
-      }
+      this.$store.commit('tasks/add', location)
     }
   }
 }
