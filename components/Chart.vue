@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="monteCarloChart" width="400" height="200" />
+    <canvas id="monteCarloChart" />
   </div>
 </template>
 
@@ -19,7 +19,6 @@ export default {
       data: {
         labels: Object.keys(this.buckets),
         datasets: [{
-          label: '% of Probability',
           data: this.chartData,
           borderColor: [
             'rgba(255, 255, 255, 0.7)'
@@ -28,6 +27,31 @@ export default {
             'rgba(255, 255, 255, 0.1)'
           ]
         }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Probability'
+            },
+            ticks: {
+              // Include a dollar sign in the ticks
+              callback (value, index, values) {
+                return value / 10 + '%'
+              }
+            }
+          }],
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Hours needed'
+            }
+          }]
+        }
       }
     })
   },
@@ -38,7 +62,7 @@ export default {
       Object.keys(this.buckets).forEach(function (bucketNumber) {
         points.push({
           x: parseInt(bucketNumber),
-          y: self.buckets[bucketNumber] / 10
+          y: self.buckets[bucketNumber]
         })
       })
       return points
