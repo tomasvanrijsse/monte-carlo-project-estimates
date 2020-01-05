@@ -27,7 +27,10 @@
 export default {
   name: 'Task',
   props: {
-    'task': Object
+    'task': {
+      type: Object,
+      require: true
+    }
   },
   computed: {
     name: {
