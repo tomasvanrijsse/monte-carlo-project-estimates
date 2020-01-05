@@ -67,11 +67,19 @@ export default {
       })
       return points
     },
+    bucketSize () {
+      const min = Math.min(...this.samples)
+      const max = Math.max(...this.samples)
+      const diff = max - min
+      const bucketSize = diff / 10 // amount of points
+      return bucketSize >= 40 ? 40 : bucketSize >= 8 ? 8 : bucketSize >= 4 ? 4 : 1
+    },
     buckets () {
       // i'll asume for now that tasks are estimated in hours
       const buckets = {}
+      const bucketSize = this.bucketSize
       this.samples.forEach(function (sample) {
-        const bucketNumber = Math.ceil(sample / 1) * 1
+        const bucketNumber = Math.ceil(sample / bucketSize) * bucketSize
         if (buckets[bucketNumber] === undefined) {
           buckets[bucketNumber] = 0
         }
