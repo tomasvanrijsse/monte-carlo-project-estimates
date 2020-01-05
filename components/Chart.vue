@@ -10,16 +10,21 @@ const Chart = require('chart.js')
 
 export default {
   name: 'Chart',
+  data () {
+    return {
+      chartObject: null
+    }
+  },
   mounted () {
     // eslint-disable-next-line
     const ctx = document.getElementById('monteCarloChart').getContext('2d')
     // eslint-disable-next-line
-    new Chart(ctx, {
+    this.chartObject = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: Object.keys(this.buckets),
+        labels: Object.keys(this.buckets()),
         datasets: [{
-          data: this.chartData,
+          data: this.chartData(),
           borderColor: [
             'rgba(255, 255, 255, 0.7)'
           ],
@@ -54,31 +59,38 @@ export default {
         }
       }
     })
+
+    this.$store.subscribe((mutation, state) => {
+      if (['tasks/updateLow', 'tasks/updateTarget', 'tasks/updateHigh'].includes(mutation.type) !== -1) {
+        this.chartObject.data.labels = Object.keys(this.buckets())
+        this.chartObject.data.datasets[0].data = this.chartData()
+        this.chartObject.update()
+      }
+    })
   },
-  computed: {
+  methods: {
     chartData () {
       const points = []
       const self = this
-      Object.keys(this.buckets).forEach(function (bucketNumber) {
+      Object.keys(this.buckets()).forEach(function (bucketNumber) {
         points.push({
           x: parseInt(bucketNumber),
-          y: self.buckets[bucketNumber]
+          y: self.buckets()[bucketNumber]
         })
       })
       return points
     },
     bucketSize () {
-      const min = Math.min(...this.samples)
-      const max = Math.max(...this.samples)
+      const min = Math.min(...this.samples())
+      const max = Math.max(...this.samples())
       const diff = max - min
-      const bucketSize = diff / 10 // amount of points
-      return bucketSize >= 40 ? 40 : bucketSize >= 8 ? 8 : bucketSize >= 4 ? 4 : 1
+      const bucketSize = diff / 10 // 10 is the preferred amount of buckets
+      return bucketSize >= 40 ? 40 : bucketSize >= 8 ? 8 : 1
     },
     buckets () {
-      // i'll asume for now that tasks are estimated in hours
       const buckets = {}
-      const bucketSize = this.bucketSize
-      this.samples.forEach(function (sample) {
+      const bucketSize = this.bucketSize()
+      this.samples().forEach(function (sample) {
         const bucketNumber = Math.ceil(sample / bucketSize) * bucketSize
         if (buckets[bucketNumber] === undefined) {
           buckets[bucketNumber] = 0
