@@ -47,6 +47,7 @@ export default {
         return this.task.low
       },
       set (value) {
+        if (value !== '') { value = parseInt(value) }
         const payload = { task: this.task, low: value }
         this.$store.commit('tasks/updateLow', payload)
       }
@@ -56,6 +57,7 @@ export default {
         return this.task.target
       },
       set (value) {
+        if (value !== '') { value = parseInt(value) }
         const payload = { task: this.task, target: value }
         this.$store.commit('tasks/updateTarget', payload)
       }
@@ -65,6 +67,7 @@ export default {
         return this.task.high
       },
       set (value) {
+        if (value !== '') { value = parseInt(value) }
         const payload = { task: this.task, high: value }
         this.$store.commit('tasks/updateHigh', payload)
       }

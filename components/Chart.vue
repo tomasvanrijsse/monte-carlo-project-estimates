@@ -12,7 +12,8 @@ export default {
   name: 'Chart',
   data () {
     return {
-      chartObject: null
+      chartObject: null,
+      debounceTimer: null
     }
   },
   mounted () {
