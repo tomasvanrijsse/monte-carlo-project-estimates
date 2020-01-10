@@ -123,12 +123,10 @@ export default {
           const random = d3.randomNormal(0.5, 0.15)()
           let score = 0
 
-          if (random < 0.5) {
-            score = (random * 2) * (task.target - task.low)
-            score += task.low
+          if (task.target !== '') {
+            score = this.applyTargetAsDistributionTop(task, random)
           } else {
-            score = ((random % 0.5) * 2) * (task.high - task.target)
-            score += task.target
+            score = (task.high - task.low) * random + task.low
           }
 
           sum += score
@@ -137,6 +135,17 @@ export default {
         samples.push(sum)
       }
       return samples
+    },
+    applyTargetAsDistributionTop (task, random) {
+      let score
+      if (random < 0.5) {
+        score = (random * 2) * (task.target - task.low)
+        score += task.low
+      } else {
+        score = ((random % 0.5) * 2) * (task.high - task.target)
+        score += task.target
+      }
+      return score
     }
   }
 }
