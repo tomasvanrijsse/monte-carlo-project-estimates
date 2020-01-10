@@ -91,7 +91,7 @@ export default {
       const buckets = {}
       const bucketSize = this.bucketSize()
       this.samples().forEach(function (sample) {
-        const bucketNumber = Math.ceil(sample / bucketSize) * bucketSize
+        const bucketNumber = Math.round(sample / bucketSize) * bucketSize
         if (buckets[bucketNumber] === undefined) {
           buckets[bucketNumber] = 0
         }
@@ -110,16 +110,16 @@ export default {
 
         tasks.forEach(function (task, index) {
           const random = d3.randomNormal(0.5, 0.15)()
-          let value = 0
+          let score = 0
 
           if (random < 0.5) {
-            value = (random * 2) * (task.target - task.low)
+            score = (random * 2) * (task.target - task.low)
+            score += task.low
           } else {
-            value = (task.target - task.low)
-            value += ((random % 0.5) * 2) * (task.high - task.target)
+            score = ((random % 0.5) * 2) * (task.high - task.target)
+            score += task.target
           }
 
-          const score = task.low + value
           sum += score
         })
 
