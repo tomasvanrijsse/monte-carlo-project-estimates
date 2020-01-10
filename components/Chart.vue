@@ -60,15 +60,26 @@ export default {
       }
     })
 
+    const self = this
     this.$store.subscribe((mutation, state) => {
       if (['tasks/updateLow', 'tasks/updateTarget', 'tasks/updateHigh'].includes(mutation.type) !== -1) {
-        this.chartObject.data.labels = Object.keys(this.buckets())
-        this.chartObject.data.datasets[0].data = this.chartData()
-        this.chartObject.update()
+        self.debounceUpdate()
       }
     })
   },
   methods: {
+    debounceUpdate () {
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer)
+      }
+      const self = this
+      this.debounceTimer = setTimeout(function () {
+        // should check if values are valid
+        self.chartObject.data.labels = Object.keys(self.buckets())
+        self.chartObject.data.datasets[0].data = self.chartData()
+        self.chartObject.update()
+      }, 400)
+    },
     chartData () {
       const points = []
       const self = this
