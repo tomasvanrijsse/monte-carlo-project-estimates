@@ -116,16 +116,20 @@ export default {
       const tasks = this.$store.state.tasks.list
 
       const samples = []
+      const self = this
 
       for (let i = 0; i < 1000; i++) {
         let sum = 0
 
         tasks.forEach(function (task, index) {
+          if (task.lowHasError || task.highHasError) {
+            return true
+          }
           const random = d3.randomNormal(0.5, 0.15)()
           let score = 0
 
           if (task.target !== '') {
-            score = this.applyTargetAsDistributionTop(task, random)
+            score = self.applyTargetAsDistributionTop(task, random)
           } else {
             score = (task.high - task.low) * random + task.low
           }

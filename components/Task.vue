@@ -7,13 +7,13 @@
       />
     </td>
     <td>
-      <v-text-field v-model="low" class="number" />
+      <v-text-field v-model="low" :error="lowHasError" class="number" />
     </td>
     <td>
-      <v-text-field v-model="target" class="number" />
+      <v-text-field v-model="target" :error="targetHasError" class="number" />
     </td>
     <td>
-      <v-text-field v-model="high" class="number" />
+      <v-text-field v-model="high" :error="highHasError" class="number" />
     </td>
     <td>
       <v-icon @click="deleteItem()" small>
@@ -70,6 +70,21 @@ export default {
         if (value !== '') { value = parseInt(value) }
         const payload = { task: this.task, high: value }
         this.$store.commit('tasks/updateHigh', payload)
+      }
+    },
+    lowHasError: {
+      get () {
+        return this.task.lowHasError
+      }
+    },
+    targetHasError: {
+      get () {
+        return this.task.lowHasError || this.task.highHasError
+      }
+    },
+    highHasError: {
+      get () {
+        return this.task.highHasError
       }
     }
   },

@@ -3,7 +3,9 @@ export const state = () => ({
     name: 'Task 1',
     low: 1,
     target: 4,
-    high: 10
+    high: 10,
+    lowHasError: false,
+    highHasError: false
   }]
 })
 
@@ -13,7 +15,9 @@ export const mutations = {
       name: '',
       low: null,
       target: null,
-      high: null
+      high: null,
+      lowHasError: false,
+      highHasError: false
     }
 
     if (location === 'top') {
@@ -30,11 +34,15 @@ export const mutations = {
   },
   updateLow (state, { task, low }) {
     task.low = low
+    task.lowHasError = !(task.target === '' || task.low < task.target)
   },
   updateTarget (state, { task, target }) {
     task.target = target
+    task.lowHasError = !(task.target === '' || task.low < task.target)
+    task.highHasError = !(task.target === '' || task.high > task.target)
   },
   updateHigh (state, { task, high }) {
     task.high = high
+    task.highHasError = !(task.target === '' || task.high > task.target)
   }
 }
