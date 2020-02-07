@@ -9,6 +9,21 @@ export const state = () => ({
   }]
 })
 
+const validate = {
+  low (low, target) {
+    if (isNaN(low) || low === '') {
+      return false
+    }
+    return (target === '' || (low < target))
+  },
+  high (high, target) {
+    if (isNaN(high) || high === '') {
+      return false
+    }
+    return (target === '' || (high > target))
+  }
+}
+
 export const mutations = {
   add (state, location) {
     const emptyTask = {
@@ -33,16 +48,22 @@ export const mutations = {
     task.name = name
   },
   updateLow (state, { task, low }) {
-    task.low = low
-    task.lowHasError = !(task.target === '' || task.low < task.target)
+    task.lowHasError = !validate.low(low, task.target)
+    if (!task.lowHasError) {
+      task.low = parseInt(low)
+    }
   },
   updateTarget (state, { task, target }) {
-    task.target = target
-    task.lowHasError = !(task.target === '' || task.low < task.target)
-    task.highHasError = !(task.target === '' || task.high > task.target)
+    if (task.target !== '' && !isNaN(task.target)) {
+      task.target = parseInt(target)
+    }
+    task.lowHasError = !validate.low(task.low, target)
+    task.highHasError = !validate.high(task.high, target)
   },
   updateHigh (state, { task, high }) {
-    task.high = high
-    task.highHasError = !(task.target === '' || task.high > task.target)
+    task.highHasError = !validate.high(high, task.target)
+    if (!task.highHasError) {
+      task.high = parseInt(high)
+    }
   }
 }
