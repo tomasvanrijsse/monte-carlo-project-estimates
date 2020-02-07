@@ -48,22 +48,22 @@ export const mutations = {
     task.name = name
   },
   updateLow (state, { task, low }) {
-    task.lowHasError = !validate.low(low, task.target)
-    if (!task.lowHasError) {
-      task.low = parseInt(low)
+    if (!isNaN(low)) {
+      task.low = low === '' ? '' : parseInt(low)
     }
+    task.lowHasError = !validate.low(low, task.target)
   },
   updateTarget (state, { task, target }) {
-    if (task.target !== '' && !isNaN(task.target)) {
-      task.target = parseInt(target)
+    if (!isNaN(target)) {
+      task.target = target === '' ? '' : parseInt(target)
     }
     task.lowHasError = !validate.low(task.low, target)
     task.highHasError = !validate.high(task.high, target)
   },
   updateHigh (state, { task, high }) {
-    task.highHasError = !validate.high(high, task.target)
-    if (!task.highHasError) {
-      task.high = parseInt(high)
+    if (!isNaN(high)) {
+      task.high = high === '' ? '' : parseInt(high)
     }
+    task.highHasError = !validate.high(high, task.target)
   }
 }
