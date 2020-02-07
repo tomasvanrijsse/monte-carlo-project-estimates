@@ -13,7 +13,8 @@ export default {
   data () {
     return {
       chartObject: null,
-      debounceTimer: null
+      debounceTimer: null,
+      samples: []
     }
   },
   mounted () {
@@ -67,6 +68,8 @@ export default {
         self.debounceUpdate()
       }
     })
+
+    this.updateSamples()
   },
   methods: {
     debounceUpdate () {
@@ -76,6 +79,7 @@ export default {
       const self = this
       this.debounceTimer = setTimeout(function () {
         // should check if values are valid
+        self.updateSamples()
         self.chartObject.data.labels = Object.keys(self.buckets())
         self.chartObject.data.datasets[0].data = self.chartData()
         self.chartObject.update()
@@ -93,8 +97,8 @@ export default {
       return points
     },
     bucketSize () {
-      const min = Math.min(...this.samples())
-      const max = Math.max(...this.samples())
+      const min = Math.min(...this.samples)
+      const max = Math.max(...this.samples)
       const diff = max - min
       const bucketSize = diff / 10 // 10 is the preferred amount of buckets
       return bucketSize >= 40 ? 40 : bucketSize >= 8 ? 8 : 1
@@ -102,7 +106,7 @@ export default {
     buckets () {
       const buckets = {}
       const bucketSize = this.bucketSize()
-      this.samples().forEach(function (sample) {
+      this.samples.forEach(function (sample) {
         const bucketNumber = Math.round(sample / bucketSize) * bucketSize
         if (buckets[bucketNumber] === undefined) {
           buckets[bucketNumber] = 0
@@ -112,11 +116,11 @@ export default {
 
       return buckets
     },
-    samples () {
+    updateSamples () {
       const tasks = this.$store.state.tasks.list
 
-      const samples = []
       const self = this
+      self.samples = []
 
       for (let i = 0; i < 1000; i++) {
         let sum = 0
@@ -137,9 +141,8 @@ export default {
           sum += score
         })
 
-        samples.push(sum)
+        self.samples.push(sum)
       }
-      return samples
     },
     applyTargetAsDistributionTop (task, random) {
       let score
