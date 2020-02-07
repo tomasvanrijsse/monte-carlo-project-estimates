@@ -18,6 +18,7 @@ export default {
     }
   },
   mounted () {
+    this.updateSamples()
     // eslint-disable-next-line
     const ctx = document.getElementById('monteCarloChart').getContext('2d')
     // eslint-disable-next-line
@@ -68,8 +69,6 @@ export default {
         self.debounceUpdate()
       }
     })
-
-    this.updateSamples()
   },
   methods: {
     debounceUpdate () {
@@ -101,7 +100,7 @@ export default {
       const max = Math.max(...this.samples)
       const diff = max - min
       const bucketSize = diff / 10 // 10 is the preferred amount of buckets
-      return bucketSize >= 40 ? 40 : bucketSize >= 8 ? 8 : 1
+      return bucketSize >= 30 ? 40 : bucketSize >= 4 ? 8 : 1
     },
     buckets () {
       const buckets = {}
