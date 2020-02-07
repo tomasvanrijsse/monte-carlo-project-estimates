@@ -7,7 +7,7 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 } : {}
 
 export default {
-  routerBase,
+  ...routerBase,
   mode: 'spa',
   /*
    ** Headers of the page
