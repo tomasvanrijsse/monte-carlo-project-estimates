@@ -25,7 +25,8 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "chart.js": "^2.9.3",
     "d3-random": "^2.0.1",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",
