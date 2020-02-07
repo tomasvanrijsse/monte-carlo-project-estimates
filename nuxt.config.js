@@ -1,6 +1,13 @@
 import colors from 'vuetify/es5/util/colors'
 
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/monte-carlo-project-estimates/'
+  }
+} : {}
+
 export default {
+  routerBase,
   mode: 'spa',
   /*
    ** Headers of the page
